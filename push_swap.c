@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/04/03 18:06:31 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/15 13:44:31 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #define KO 0
 #define ERROR -1
 
+int g_lim = 0;
 int ft_max(int a, int b)
 {
 	if (a > b)
@@ -179,16 +180,17 @@ void print_stack(t_stack a, t_stack b)
 	while (i >= 0)
 	{
 		if (i <= a.top)
-			printf("%d ", a.arr[i]);
+			printf("%d\t", a.arr[i]);
 		else
-			printf("  ");
+			printf("\t");
 		if (i <= b.top)
 			printf("%d \n", b.arr[i]);
 		else
 			printf("  \n");
 		i--;
 	}
-	printf("- -\na b\n");
+	printf("- -\na\tb\n");
+	printf("\n");
 }
 
 int apply_inst(t_stack *a, t_stack *b, char *s)
@@ -245,13 +247,13 @@ int is_duplicates(t_stack *a, int nb)
 	int i;
 
 	i = 0;
-	while(i <= a->top)
+	while (i <= a->top)
 	{
 		if (a->arr[i] == nb)
-			return(TRUE);
-			i++;
+			return (TRUE);
+		i++;
 	}
-	return(FALSE);
+	return (FALSE);
 }
 
 int get_min(t_stack *stack)
@@ -267,7 +269,7 @@ int get_min(t_stack *stack)
 			min_index = i;
 		i--;
 	}
-	return(min_index);
+	return (min_index);
 }
 
 int get_max(t_stack *stack)
@@ -283,9 +285,115 @@ int get_max(t_stack *stack)
 			min_index = i;
 		i--;
 	}
-	return(min_index);
+	return (min_index);
 }
 
+void quickSortb(t_stack *a, t_stack *b, int low, int high);
+void quickSort(t_stack *a, t_stack *b, int low, int high)
+{
+	int r;
+	g_lim++;
+	int btop = b->top;
+	int median;
+	int top_half;
+	top_half = 0;
+	int median_index;
+	median = a->arr[low];
+	median_index = 0;
+	printf("median %d high - low %d\n", median, high - low);
+	if (low >= high)
+		return;
+	int i;
+	r = 0;
+	for (i = low; i <= high; i++)
+	{
+		if (a->arr[a->top] > median)
+		{
+			top_half++;
+			push_b(a, b);
+		}
+		else
+		{
+			r++;
+			apply_inst(a, b, "ra");
+		}
+	}
+	// for (i = 0; i < high - top_half; i++)
+	// 	apply_inst(a, b, "ra");
+	// push_b(a, b);
+	// for (i = 0; i < top_half; i++)
+	// 		push_a(a, b);
+	while (low++ < a->top)
+		apply_inst(a, b, "ra");
+	// apply_inst(a, b, "rra");
+	// printf("tophalf %d\n", high -  top_half);
+	printf("sort a top half %d\n", top_half);
+	print_stack(*a, *b);
+	if (top_half > 2 && g_lim < 4)
+		quickSortb(a, b, btop + 1, btop + top_half - 1);
+	// for (i = 0; i < top_half; i++)
+	// {
+	// 		apply_inst(a, b, "rrb");
+	// 		push_a(a, b);
+	// }
+	// if (top_half > 1)
+	// 	print_stack(*a, *b);
+	// quickSort(a, b, high - top_half + 1, high);
+	// for (i = 0; i < top_half; i++)
+	// 		apply_inst(a, b, "ra");
+	// quickSort(a, b, 0, top_half);
+}
+void quickSortb(t_stack *a, t_stack *b, int low, int high)
+{
+	g_lim++;
+	int atop = a->top;
+	int median;
+	int top_half;
+	top_half = 0;
+	int median_index;
+	median = b->arr[0];
+	median_index = 0;
+	// // printf("%d\n", get_min(&a));
+	// // printf("%d\n", get_max(&a));
+	printf("median %d high - low %d\n", median, high - low);
+	// // print_stack(*a, *b);
+	if (low >= high)
+		return;
+	int i;
+	for (i = low; i <= high; i++)
+	{
+		if (b->arr[b->top] > median)
+		{
+			top_half++;
+			push_a(a, b);
+			// printf("pa\n");
+		}
+		else
+		{
+			// printf("ra\n");
+			apply_inst(a, b, "rb");
+		}
+	}
+	while (low++ < b->top)
+		apply_inst(a, b, "rb");
+	// push_a(a, b);
+	// for (i = 0; i < top_half; i++)
+	// 		push_b(a, b);
+	// printf("tophalf %d\n", high -  top_half);
+	printf("sort b top half %d\n", top_half);
+	print_stack(*a, *b);
+	// for (i = 0; i < top_half; i++)
+	// {
+	// 		push_b(a, b);
+	// }
+	if (top_half > 2)
+		quickSort(a, b, atop + 1, atop + top_half - 1);
+
+	// quickSort(a, b, high - top_half + 1, high);
+	// for (i = 0; i < top_half; i++)
+	// 		apply_inst(a, b, "ra");
+	// quickSort(a, b, 0, top_half);
+}
 int main(int ac, char **av)
 {
 	t_stack a;
@@ -313,6 +421,9 @@ int main(int ac, char **av)
 		push(&a, nb);
 		i--;
 	}
-	printf("%d\n", get_min(&a));
-	printf("%d\n", get_max(&a));
+	print_stack(a, b);
+	quickSort(&a, &b, 0, a.top);
+	// quickSortb(&a, &b, 0, b.top);
+	// quickSort(&a, &b,a.top - 2 , a.top - 2);
+	// quickSort(&a, &b, 0, a.top);
 }
