@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/04/03 17:12:35 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/16 11:24:29 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,7 +288,7 @@ int main(int ac, char **av)
 		inst[nb - 1] = 0;
 		if (apply_inst(&a, &b, inst))
 			return (ft_error(ERROR));
-		print_stack(a, b);
+		// print_stack(a, b);
 	}
 	if (is_sorted(&a, &b))
 		return (ft_error(OK));
