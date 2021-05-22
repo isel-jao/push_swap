@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/17 12:03:56 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/22 12:58:12 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,56 +30,67 @@ int ft_max(int a, int b)
 	return (b);
 }
 
+typedef struct s_data
+{
+	int value;
+	int position;
+	int sorted;
+} t_data;
+
 typedef struct s_stack
 {
-	int *arr;
+	t_data *arr;
 	int top;
 } t_stack;
 
-void push(t_stack *stack, int x)
+void push(t_stack *stack, t_data data)
 {
 	stack->top++;
-	stack->arr[stack->top] = x;
+	ft_memmove(&(stack->arr[stack->top]), &data, sizeof(t_data));
 }
 
-int pop(t_stack *stack)
+t_data *pop(t_stack *stack)
 {
 	if (stack->top >= 0)
-		return (stack->arr[stack->top--]);
+		return (&(stack->arr[stack->top--]));
 	else
-		return (-1);
+		return (NULL);
 }
 
 int swap(t_stack *stack)
 {
-	int tmp;
+	t_data tmp;
 
 	if (stack->top >= 1)
 	{
-		tmp = stack->arr[stack->top];
-		stack->arr[stack->top] = stack->arr[stack->top - 1];
-		stack->arr[stack->top - 1] = tmp;
+		ft_memmove(&tmp, &(stack->arr[stack->top]), sizeof(t_data));
+		stack->arr[stack->top].value = stack->arr[stack->top - 1].value;
+		stack->arr[stack->top].position = stack->arr[stack->top - 1].position;
+		ft_memmove(&(stack->arr[stack->top]), &(stack->arr[stack->top - 1]), sizeof(t_data));
+
+		stack->arr[stack->top - 1].value = tmp.value;
+		stack->arr[stack->top - 1].position = tmp.position;
 	}
 	return (0);
 }
 
 int rotate(t_stack *stack, int dir)
 {
-	int tmp;
+	t_data tmp;
 
 	if (stack->top <= 0)
 		return (0);
 	if (dir == RIGHT)
 	{
-		tmp = stack->arr[stack->top];
-		ft_memmove(stack->arr + 1, stack->arr, stack->top * 4);
-		stack->arr[0] = tmp;
+		ft_memmove(&tmp, &stack->arr[stack->top], sizeof(t_data));
+		ft_memmove(stack->arr + 1, stack->arr, stack->top * sizeof(t_data));
+		ft_memmove(&stack->arr[0], &tmp, sizeof(t_data));
 	}
 	if (dir == LEFT)
 	{
-		tmp = stack->arr[0];
-		ft_memmove(stack->arr, stack->arr + 1, stack->top * 4);
-		stack->arr[stack->top] = tmp;
+		ft_memmove(&tmp, &stack->arr[0], sizeof(t_data));
+		ft_memmove(stack->arr, stack->arr + 1, stack->top * sizeof(t_data));
+		ft_memmove(&stack->arr[stack->top], &tmp, sizeof(t_data));
 	}
 	return (0);
 }
@@ -87,14 +98,14 @@ int rotate(t_stack *stack, int dir)
 int push_a(t_stack *a, t_stack *b)
 {
 	if (b->top > -1)
-		push(a, pop(b));
+		push(a, *pop(b));
 	return (0);
 }
 
 int push_b(t_stack *a, t_stack *b)
 {
 	if (a->top > -1)
-		push(b, pop(a));
+		push(b, *pop(a));
 	return (0);
 }
 
@@ -172,30 +183,29 @@ int check_sorted(int *stack_a, int len)
 	return (1);
 }
 
-void print_stack(t_stack a, t_stack b)
-{
-	int i;
-	int j;
-	i = ft_max(a.top, b.top);
-	while (i >= 0)
-	{
-		if (i <= a.top)
-			printf("%d\t", a.arr[i]);
-		else
-			printf("\t");
-		if (i <= b.top)
-			printf("%d \n", b.arr[i]);
-		else
-			printf("  \n");
-		i--;
-	}
-	printf("- -\na\tb\n");
-	printf("\n");
-}
+// void print_stack(t_stack a, t_stack b)
+// {
+// 	int i;
+// 	int j;
+// 	i = ft_max(a.top, b.top);
+// 	while (i >= 0)
+// 	{
+// 		if (i <= a.top)
+// 			printf("%d\t", a.arr[i]);
+// 		else
+// 			printf("\t");
+// 		if (i <= b.top)
+// 			printf("%d \n", b.arr[i]);
+// 		else
+// 			printf("  \n");
+// 		i--;
+// 	}
+// 	printf("- -\na\tb\n");
+// 	printf("\n");
+// }
 
 int apply_inst(t_stack *a, t_stack *b, char *s)
 {
-
 	if (!strcmp(s, "sa"))
 		return (swap(a));
 	if (!ft_strcmp(s, "sb"))
@@ -231,11 +241,11 @@ int is_sorted(t_stack *a, t_stack *b)
 		return (FALSE);
 	while (i < a->top)
 	{
-		if (a->arr[i] < a->arr[i + 1])
-			return(FALSE);
+		if (a->arr[i].value < a->arr[i + 1].value)
+			return (FALSE);
 		i++;
 	}
-	return(TRUE);
+	return (TRUE);
 }
 
 int is_duplicates(t_stack *a, int nb)
@@ -245,44 +255,44 @@ int is_duplicates(t_stack *a, int nb)
 	i = 0;
 	while (i <= a->top)
 	{
-		if (a->arr[i] == nb)
+		if (a->arr[i].value == nb)
 			return (TRUE);
 		i++;
 	}
 	return (FALSE);
 }
 
-int get_min(t_stack *stack)
-{
-	int min_index;
-	int i;
+// int get_min(t_stack *stack)
+// {
+// 	int min_index;
+// 	int i;
 
-	i = stack->top - 1;
-	min_index = stack->top;
-	while (i >= 0)
-	{
-		if (stack->arr[i] < stack->arr[min_index])
-			min_index = i;
-		i--;
-	}
-	return (min_index);
-}
+// 	i = stack->top - 1;
+// 	min_index = stack->top;
+// 	while (i >= 0)
+// 	{
+// 		if (stack->arr[i] < stack->arr[min_index])
+// 			min_index = i;
+// 		i--;
+// 	}
+// 	return (min_index);
+// }
 
-int get_max(t_stack *stack)
-{
-	int min_index;
-	int i;
+// int get_max(t_stack *stack)
+// {
+// 	int min_index;
+// 	int i;
 
-	i = stack->top - 1;
-	min_index = stack->top;
-	while (i >= 0)
-	{
-		if (stack->arr[i] > stack->arr[min_index])
-			min_index = i;
-		i--;
-	}
-	return (min_index);
-}
+// 	i = stack->top - 1;
+// 	min_index = stack->top;
+// 	while (i >= 0)
+// 	{
+// 		if (stack->arr[i] > stack->arr[min_index])
+// 			min_index = i;
+// 		i--;
+// 	}
+// 	return (min_index);
+// }
 
 void quickSortb(t_stack *a, t_stack *b, int low, int hight);
 void quickSort(t_stack *a, t_stack *b, int low, int hight)
@@ -294,26 +304,24 @@ void quickSort(t_stack *a, t_stack *b, int low, int hight)
 	int top_half;
 	top_half = 0;
 	int median_index;
-	median = a->arr[low];
+	median = a->arr[low].value;
 	median_index = 0;
-	
+
 	if (low >= hight)
 		return;
-	// printf("median %d   low %d high %d a->top %d\n", median, low, hight, a->top);
 	while (a->top > hight)
 	{
 		printf("pb\n");
 		push_b(a, b);
 	}
-	
-	// printf("-----\nline %d\n------\n", __LINE__);
+
 	int i;
 	r = 0;
 	i = 0;
 	i = low;
-	while (a->arr[a->top] != median)
+	while (a->arr[a->top].value != median)
 	{
-		if (a->arr[a->top] < median)
+		if (a->arr[a->top].value < median)
 		{
 			top_half++;
 			push_b(a, b);
@@ -334,24 +342,261 @@ void quickSort(t_stack *a, t_stack *b, int low, int hight)
 		printf("rra\n");
 		apply_inst(a, b, "rra");
 	}
-	push_a(a, b);
 	printf("pa\n");
+	push_a(a, b);
 	while (b->top >= 0)
 	{
 		push_a(a, b);
 		printf("pa\n");
 	}
-
-	// print_stack(*a, *b);
-	// printf("new index %d\n", hight - top_half);
 	quickSort(a, b, hight - top_half + 1, hight);
+	// printf("low %d hight%d\n", low, hight);
 	quickSort(a, b, low, hight - top_half - 1);
+	// printf("low %d hight%d\n", low, hight);
 }
+// void quickSortb(t_stack *a, t_stack *b, int low, int hight)
+// {
+// 	int r;
+// 	g_lim++;
+// 	int btop = b->top;
+// 	int median;
+// 	int top_half;
+// 	top_half = 0;
+// 	int median_index;
+// 	median = a->arr[low].value;
+// 	median_index = 0;
+
+// 	if (low >= hight)
+// 	{
+// 		push_b(a, b);
+// 	}
+// 	return;
+// 	// while (a->top > hight)
+// 	// {
+// 	// 	printf("pb\n");
+// 	// 	push_b(a, b);
+// 	// }
+
+// 	int i;
+// 	r = 0;
+// 	i = 0;
+// 	i = low;
+// 	while (a->arr[a->top].value != median)
+// 	{
+// 		if (a->arr[a->top].value > median)
+// 		{
+// 			top_half++;
+// 			push_a(a, b);
+// 			printf("pa\n");
+// 		}
+// 		else
+// 		{
+// 			r++;
+// 			apply_inst(a, b, "rb");
+// 			printf("rb\n");
+// 		}
+// 		i++;
+// 	}
+// 	push_b(a, b);
+// 	printf("pb\n");
+// 	while (r--)
+// 	{
+// 		printf("rra\n");
+// 		apply_inst(a, b, "rra");
+// 	}
+// 	printf("pa\n");
+// 	push_a(a, b);
+// 	while (b->top >= 0)
+// 	{
+// 		push_a(a, b);
+// 		printf("pa\n");
+// 	}
+// 	quickSort(a, b, hight - top_half + 1, hight);
+// 	// printf("low %d hight%d\n", low, hight);
+// 	quickSort(a, b, low, hight - top_half - 1);
+// 	// printf("low %d hight%d\n", low, hight);
+// }
+int get_last_sorted(t_stack *stack)
+{
+	int i;
+
+	i = 0;
+	while (stack->arr[i].position == i)
+		i++;
+	return i;
+}
+
+typedef struct s_chunk
+{
+	int *indexes;
+	int top;
+} t_chunk;
+
+void sort_b(t_stack *a, t_stack *b, t_chunk chunk);
+void sort_a(t_stack *a, t_stack *b, t_chunk chunk)
+{
+	int r = 0;
+	int i;
+	int median;
+	int median_value;
+	int btop = b->top;
+	median = get_last_sorted(a);
+	median_value = a->arr[median].value;
+	if (median == -1 || a->top < median)
+		return;
+	// // printf("--------------------------\n");
+	if (a->top == median + 1)
+	{
+		if (a->arr[a->top].value > median_value)
+		{
+			apply_inst(a, b, "sa");
+			printf("sa\n");
+			sort_a(a, b, chunk);
+			return;
+		}
+	}
+	chunk.top++;
+	chunk.indexes[chunk.top] = b->top + 1;
+	i = a->top - median;
+	while (i)
+	{
+		if (a->arr[a->top].value < median_value)
+		{
+			push_b(a, b);
+			printf("pb\n");
+		}
+		else
+		{
+			r++;
+			apply_inst(a, b, "ra");
+			printf("ra\n");
+		}
+		i--;
+	}
+	push_b(a, b);
+	printf("pb\n");
+	while (r--)
+	{
+		printf("rra\n");
+		apply_inst(a, b, "rra");
+	}
+	if (a->top > median)
+		sort_a(a, b, chunk);
+	sort_b(a, b, chunk);
+}
+
+void sort_b(t_stack *a, t_stack *b, t_chunk chunk)
+{
+	int r = 0;
+	int i = 0;
+	int median;
+	if (b->top < 0)
+		return;
+	median = chunk.indexes[chunk.top];
+	int median_value = b->arr[median].value;
+	while (b->arr[b->top].value != median_value)
+	{
+		if (b->arr[b->top].value > median_value)
+		{
+			push_a(a, b);
+			printf("pa\n");
+		}
+		else
+		{
+			r++;
+			apply_inst(a, b, "rb");
+			printf("rb\n");
+		}
+		i++;
+	}
+	push_a(a, b);
+	printf("pa\n");
+	while (r--)
+	{
+		printf("rrb\n");
+		apply_inst(a, b, "rrb");
+	}
+	if (b->top < chunk.indexes[chunk.top])
+		chunk.top--;
+	sort_a(a, b, chunk);
+	sort_b(a, b, chunk);
+}
+
+void print_stack(t_stack stack)
+{
+	int i;
+
+	i = stack.top;
+	printf("------\n");
+	while (i >= 0)
+	{
+		printf("value %03d\tindex %03d\n", stack.arr[i].value, stack.arr[i].position);
+		i--;
+	}
+	printf("------\n");
+}
+void selectionSort(t_stack *stack)
+{
+	int i;
+	int j;
+	int max;
+	t_data tmp;
+
+	i = 0;
+	while (i <= stack->top)
+	{
+		max = i;
+		j = i + 1;
+		while (j <= stack->top)
+		{
+			if (stack->arr[j].value > stack->arr[max].value)
+				max = j;
+			j++;
+		}
+		ft_memmove(&tmp, &(stack->arr[i]), sizeof(t_data));
+		ft_memmove(&(stack->arr[i]), &(stack->arr[max]), sizeof(t_data));
+		ft_memmove(&(stack->arr[max]), &tmp, sizeof(t_data));
+		i++;
+	}
+}
+
+int get_index(t_stack *stack, int value)
+{
+	int index;
+
+	index = 0;
+	while (index <= stack->top)
+	{
+		if (stack->arr[index].value == value)
+			return (index);
+		index++;
+	}
+	return (-1);
+}
+
+void set_indexes(t_stack *stack)
+{
+	t_stack tmp;
+	int i;
+
+	tmp.arr = malloc(sizeof(t_data) * (stack->top + 1));
+	ft_memmove(tmp.arr, stack->arr, sizeof(t_data) * (stack->top + 1));
+	tmp.top = stack->top;
+	selectionSort(&tmp);
+	i = 0;
+	while (i <= stack->top)
+	{
+		stack->arr[i].position = get_index(&tmp, stack->arr[i].value);
+		i++;
+	}
+}
+
 
 int main(int ac, char **av)
 {
 	t_stack a;
 	t_stack b;
+	t_data data;
 	char inst[5];
 	int i;
 	int empty = TRUE;
@@ -362,7 +607,7 @@ int main(int ac, char **av)
 	b.top = -1;
 	if (ac == 1)
 		return 0;
-	if (!(a.arr = malloc(sizeof(int) * (ac - 1))) || !(b.arr = malloc(sizeof(int) * (ac - 1))))
+	if (!(a.arr = malloc(sizeof(t_data) * (ac - 1))) || !(b.arr = malloc(sizeof(t_data) * (ac - 1))))
 		return (ft_error(ERROR));
 	i = ac - 1;
 	while (i >= 1)
@@ -372,16 +617,16 @@ int main(int ac, char **av)
 			free(a.arr);
 			return (ft_error(ERROR));
 		}
-		push(&a, nb);
+		data.value = nb;
+		push(&a, data);
 		i--;
 	}
 	if (is_sorted(&a, &b))
-		return(0);
-	print_stack(a, b);
-	quickSort(&a, &b, 0, a.top);
-	print_stack(a, b);
-	// print_stack(a, b);
-	// quickSortb(&a, &b, 0, b.top);
-	// quickSort(&a, &b,a.top - 2 , a.top - 2);
-	// quickSort(&a, &b, 0, a.top);
+		return (0);
+	set_indexes(&a);
+	t_chunk chunks;
+	chunks.indexes = malloc(sizeof(int) * a.top);
+	chunks.top = -1;
+
+	sort_a(&a, &b, chunks);
 }
