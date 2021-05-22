@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/22 12:58:12 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/22 15:09:37 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,29 +183,9 @@ int check_sorted(int *stack_a, int len)
 	return (1);
 }
 
-// void print_stack(t_stack a, t_stack b)
-// {
-// 	int i;
-// 	int j;
-// 	i = ft_max(a.top, b.top);
-// 	while (i >= 0)
-// 	{
-// 		if (i <= a.top)
-// 			printf("%d\t", a.arr[i]);
-// 		else
-// 			printf("\t");
-// 		if (i <= b.top)
-// 			printf("%d \n", b.arr[i]);
-// 		else
-// 			printf("  \n");
-// 		i--;
-// 	}
-// 	printf("- -\na\tb\n");
-// 	printf("\n");
-// }
-
 int apply_inst(t_stack *a, t_stack *b, char *s)
 {
+	ft_putendl(s);
 	if (!strcmp(s, "sa"))
 		return (swap(a));
 	if (!ft_strcmp(s, "sb"))
@@ -262,160 +242,6 @@ int is_duplicates(t_stack *a, int nb)
 	return (FALSE);
 }
 
-// int get_min(t_stack *stack)
-// {
-// 	int min_index;
-// 	int i;
-
-// 	i = stack->top - 1;
-// 	min_index = stack->top;
-// 	while (i >= 0)
-// 	{
-// 		if (stack->arr[i] < stack->arr[min_index])
-// 			min_index = i;
-// 		i--;
-// 	}
-// 	return (min_index);
-// }
-
-// int get_max(t_stack *stack)
-// {
-// 	int min_index;
-// 	int i;
-
-// 	i = stack->top - 1;
-// 	min_index = stack->top;
-// 	while (i >= 0)
-// 	{
-// 		if (stack->arr[i] > stack->arr[min_index])
-// 			min_index = i;
-// 		i--;
-// 	}
-// 	return (min_index);
-// }
-
-void quickSortb(t_stack *a, t_stack *b, int low, int hight);
-void quickSort(t_stack *a, t_stack *b, int low, int hight)
-{
-	int r;
-	g_lim++;
-	int btop = b->top;
-	int median;
-	int top_half;
-	top_half = 0;
-	int median_index;
-	median = a->arr[low].value;
-	median_index = 0;
-
-	if (low >= hight)
-		return;
-	while (a->top > hight)
-	{
-		printf("pb\n");
-		push_b(a, b);
-	}
-
-	int i;
-	r = 0;
-	i = 0;
-	i = low;
-	while (a->arr[a->top].value != median)
-	{
-		if (a->arr[a->top].value < median)
-		{
-			top_half++;
-			push_b(a, b);
-			printf("pb\n");
-		}
-		else
-		{
-			r++;
-			apply_inst(a, b, "ra");
-			printf("ra\n");
-		}
-		i++;
-	}
-	push_b(a, b);
-	printf("pb\n");
-	while (r--)
-	{
-		printf("rra\n");
-		apply_inst(a, b, "rra");
-	}
-	printf("pa\n");
-	push_a(a, b);
-	while (b->top >= 0)
-	{
-		push_a(a, b);
-		printf("pa\n");
-	}
-	quickSort(a, b, hight - top_half + 1, hight);
-	// printf("low %d hight%d\n", low, hight);
-	quickSort(a, b, low, hight - top_half - 1);
-	// printf("low %d hight%d\n", low, hight);
-}
-// void quickSortb(t_stack *a, t_stack *b, int low, int hight)
-// {
-// 	int r;
-// 	g_lim++;
-// 	int btop = b->top;
-// 	int median;
-// 	int top_half;
-// 	top_half = 0;
-// 	int median_index;
-// 	median = a->arr[low].value;
-// 	median_index = 0;
-
-// 	if (low >= hight)
-// 	{
-// 		push_b(a, b);
-// 	}
-// 	return;
-// 	// while (a->top > hight)
-// 	// {
-// 	// 	printf("pb\n");
-// 	// 	push_b(a, b);
-// 	// }
-
-// 	int i;
-// 	r = 0;
-// 	i = 0;
-// 	i = low;
-// 	while (a->arr[a->top].value != median)
-// 	{
-// 		if (a->arr[a->top].value > median)
-// 		{
-// 			top_half++;
-// 			push_a(a, b);
-// 			printf("pa\n");
-// 		}
-// 		else
-// 		{
-// 			r++;
-// 			apply_inst(a, b, "rb");
-// 			printf("rb\n");
-// 		}
-// 		i++;
-// 	}
-// 	push_b(a, b);
-// 	printf("pb\n");
-// 	while (r--)
-// 	{
-// 		printf("rra\n");
-// 		apply_inst(a, b, "rra");
-// 	}
-// 	printf("pa\n");
-// 	push_a(a, b);
-// 	while (b->top >= 0)
-// 	{
-// 		push_a(a, b);
-// 		printf("pa\n");
-// 	}
-// 	quickSort(a, b, hight - top_half + 1, hight);
-// 	// printf("low %d hight%d\n", low, hight);
-// 	quickSort(a, b, low, hight - top_half - 1);
-// 	// printf("low %d hight%d\n", low, hight);
-// }
 int get_last_sorted(t_stack *stack)
 {
 	int i;
@@ -444,42 +270,25 @@ void sort_a(t_stack *a, t_stack *b, t_chunk chunk)
 	median_value = a->arr[median].value;
 	if (median == -1 || a->top < median)
 		return;
-	// // printf("--------------------------\n");
-	if (a->top == median + 1)
+	if (a->top == median + 1 && a->arr[a->top].value > median_value)
 	{
-		if (a->arr[a->top].value > median_value)
-		{
-			apply_inst(a, b, "sa");
-			printf("sa\n");
-			sort_a(a, b, chunk);
-			return;
-		}
+		apply_inst(a, b, "sa");
+		sort_a(a, b, chunk);
+		return;
 	}
 	chunk.top++;
 	chunk.indexes[chunk.top] = b->top + 1;
 	i = a->top - median;
-	while (i)
+	while (i >= 0)
 	{
-		if (a->arr[a->top].value < median_value)
-		{
-			push_b(a, b);
-			printf("pb\n");
-		}
-		else
-		{
-			r++;
+		if (a->arr[a->top].value <= median_value)
+			apply_inst(a, b, "pb");
+		else if (++r)
 			apply_inst(a, b, "ra");
-			printf("ra\n");
-		}
 		i--;
 	}
-	push_b(a, b);
-	printf("pb\n");
 	while (r--)
-	{
-		printf("rra\n");
 		apply_inst(a, b, "rra");
-	}
 	if (a->top > median)
 		sort_a(a, b, chunk);
 	sort_b(a, b, chunk);
@@ -489,31 +298,24 @@ void sort_b(t_stack *a, t_stack *b, t_chunk chunk)
 {
 	int r = 0;
 	int i = 0;
+	int start;
 	int median;
 	if (b->top < 0)
 		return;
-	median = chunk.indexes[chunk.top];
+	start = chunk.indexes[chunk.top];
+	median = start;
 	int median_value = b->arr[median].value;
-	while (b->arr[b->top].value != median_value)
+	i = b->top - start;
+	while (i >= 0)
 	{
-		if (b->arr[b->top].value > median_value)
-		{
-			push_a(a, b);
-			printf("pa\n");
-		}
-		else
-		{
-			r++;
+		if (b->arr[b->top].value >= median_value)
+			apply_inst(a, b, "pa");
+		else if (++r)
 			apply_inst(a, b, "rb");
-			printf("rb\n");
-		}
-		i++;
+		i--;
 	}
-	push_a(a, b);
-	printf("pa\n");
 	while (r--)
 	{
-		printf("rrb\n");
 		apply_inst(a, b, "rrb");
 	}
 	if (b->top < chunk.indexes[chunk.top])
@@ -590,7 +392,6 @@ void set_indexes(t_stack *stack)
 		i++;
 	}
 }
-
 
 int main(int ac, char **av)
 {

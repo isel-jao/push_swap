@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/16 11:24:29 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/22 14:56:07 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,20 +245,20 @@ int is_duplicates(t_stack *a, int nb)
 	int i;
 
 	i = 0;
-	while(i <= a->top)
+	while (i <= a->top)
 	{
 		if (a->arr[i] == nb)
-			return(TRUE);
-			i++;
+			return (TRUE);
+		i++;
 	}
-	return(FALSE);
+	return (FALSE);
 }
 
 int main(int ac, char **av)
 {
 	t_stack a;
 	t_stack b;
-	char inst[5];
+	char *inst;
 	int i;
 	int empty = TRUE;
 	int sorted = FALSE;
@@ -281,14 +281,12 @@ int main(int ac, char **av)
 		push(&a, nb);
 		i--;
 	}
-	print_stack(a, b);
-	ft_bzero(inst, 4);
-	while ((nb = read(0, inst, 4)) > 0)
+	inst = NULL;
+	while (get_next_line(0, &inst))
 	{
-		inst[nb - 1] = 0;
 		if (apply_inst(&a, &b, inst))
 			return (ft_error(ERROR));
-		// print_stack(a, b);
+		free(inst);
 	}
 	if (is_sorted(&a, &b))
 		return (ft_error(OK));
