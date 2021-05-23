@@ -6,12 +6,11 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/23 14:08:54 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/23 14:18:20 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-//hello
 #include "./libft/includes/libft.h"
 
 #define LEFT -1
