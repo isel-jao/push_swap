@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/22 15:09:37 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/23 13:54:11 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,10 @@ int check_sorted(int *stack_a, int len)
 
 int apply_inst(t_stack *a, t_stack *b, char *s)
 {
+	static int i;
+	i++;
+	// if (i > 1700)
+	// 	exit(0);
 	ft_putendl(s);
 	if (!strcmp(s, "sa"))
 		return (swap(a));
@@ -257,28 +261,66 @@ typedef struct s_chunk
 	int *indexes;
 	int top;
 } t_chunk;
+float ft_abs(float i)
+{
+	if (i >= 0)
+		return i;
+	return (-i);
+}
+int get_median(t_stack *stack, int low)
+{
+	int min;
+	int max;
+	float middle;
+	int mid_index;
+	min = stack->arr[low].value;
+	max = stack->arr[low].value;
+	for (int i = low + 1; i <= stack->top; i++)
+	{
+		if (stack->arr[i].value < min)
+			min = stack->arr[i].value;
+		if (stack->arr[i].value > max)
+			max = stack->arr[i].value;
+	}
+	middle = (float)(min + max) / 2.;
+	mid_index = low;
+	for (int i = low + 1; i <= stack->top; i++)
+	{
+		if (ft_abs((float)(stack->arr[i].value) - middle) <= ft_abs((float)(stack->arr[mid_index].value) - middle))
+			mid_index = i;
+	}
+	return (mid_index);
+}
 
 void sort_b(t_stack *a, t_stack *b, t_chunk chunk);
 void sort_a(t_stack *a, t_stack *b, t_chunk chunk)
 {
 	int r = 0;
 	int i;
+	int start;
 	int median;
 	int median_value;
 	int btop = b->top;
-	median = get_last_sorted(a);
-	median_value = a->arr[median].value;
-	if (median == -1 || a->top < median)
+	start = get_last_sorted(a);
+	if (start == -1 || a->top < start)
 		return;
-	if (a->top == median + 1 && a->arr[a->top].value > median_value)
+	if (a->top == start + 1 && a->arr[a->top].value > a->arr[start].value)
 	{
 		apply_inst(a, b, "sa");
 		sort_a(a, b, chunk);
 		return;
 	}
+	median = get_median(a, start);
+	median_value = a->arr[median].value;
+	// ft_putnbr(start);
+	// ft_putstr("\t");
+	// ft_putnbr(median);
+	// ft_putstr("\t");
+	// ft_putnbr(median_value);
+	// ft_putendl("  sort_a");
 	chunk.top++;
 	chunk.indexes[chunk.top] = b->top + 1;
-	i = a->top - median;
+	i = a->top - start;
 	while (i >= 0)
 	{
 		if (a->arr[a->top].value <= median_value)
@@ -287,9 +329,12 @@ void sort_a(t_stack *a, t_stack *b, t_chunk chunk)
 			apply_inst(a, b, "ra");
 		i--;
 	}
-	while (r--)
-		apply_inst(a, b, "rra");
-	if (a->top > median)
+	if (start > 0)
+	{
+		while (r--)
+			apply_inst(a, b, "rra");
+	}
+	if (a->top > start)
 		sort_a(a, b, chunk);
 	sort_b(a, b, chunk);
 }
@@ -300,11 +345,20 @@ void sort_b(t_stack *a, t_stack *b, t_chunk chunk)
 	int i = 0;
 	int start;
 	int median;
+	int median_value;
 	if (b->top < 0)
 		return;
+
 	start = chunk.indexes[chunk.top];
-	median = start;
-	int median_value = b->arr[median].value;
+	// median = start ;
+	median = get_median(b, start);
+	median_value = b->arr[median].value;
+	// ft_putnbr(start);
+	// ft_putstr("\t");
+	// ft_putnbr(median);
+	// ft_putstr("\t");
+	// ft_putnbr(median_value);
+	// ft_putendl("  sort_b");
 	i = b->top - start;
 	while (i >= 0)
 	{
@@ -314,9 +368,12 @@ void sort_b(t_stack *a, t_stack *b, t_chunk chunk)
 			apply_inst(a, b, "rb");
 		i--;
 	}
-	while (r--)
+	if (start > 0)
 	{
-		apply_inst(a, b, "rrb");
+		while (r--)
+		{
+			apply_inst(a, b, "rrb");
+		}
 	}
 	if (b->top < chunk.indexes[chunk.top])
 		chunk.top--;
@@ -428,6 +485,6 @@ int main(int ac, char **av)
 	t_chunk chunks;
 	chunks.indexes = malloc(sizeof(int) * a.top);
 	chunks.top = -1;
-
+	// printf("median %d\n", a.arr[get_median(&a, 0)].value);
 	sort_a(&a, &b, chunks);
 }
