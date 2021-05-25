@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yq <yq@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/22 14:56:07 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/25 18:02:31 by yq               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,6 +254,8 @@ int is_duplicates(t_stack *a, int nb)
 	return (FALSE);
 }
 
+
+
 int main(int ac, char **av)
 {
 	t_stack a;
@@ -282,12 +284,12 @@ int main(int ac, char **av)
 		i--;
 	}
 	inst = NULL;
-	while (get_next_line(0, &inst))
-	{
-		if (apply_inst(&a, &b, inst))
-			return (ft_error(ERROR));
-		free(inst);
-	}
+	// while (get_line(&inst))
+	// {
+	// 	if (apply_inst(&a, &b, inst))
+	// 		return (ft_error(ERROR));
+	// 	free(inst);
+	// }
 	if (is_sorted(&a, &b))
 		return (ft_error(OK));
 	return (ft_error(KO));
