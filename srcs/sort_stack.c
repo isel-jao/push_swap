@@ -49,6 +49,8 @@ static void sort_five(t_stack *a, t_stack *b)
 	sort_tree(a, b);
 	while (b->top >= 0)
 		apply_inst(a, b, "pa", 1);
+	if (a->arr[a->top].value > a->arr[a->top - 1].value)
+		apply_inst(a, b, "sa", 1);
 }
 static void ft_sort_a(t_stack *a, t_stack *b, t_chunk chunk, t_vars v)
 {
@@ -78,16 +80,16 @@ void sort_a(t_stack *a, t_stack *b, t_chunk chunk)
 {
 	t_vars v;
 
-	if (a->top == 2)
-		sort_tree(a, b);
-	else if (a->top == 4 || a->top == 3)
-	{
-		sort_five(a, b);
-		return;
-	}
 	v.s = get_last_sorted(a);
 	if (v.s == -1 || a->top < v.s)
 		return;
+	if ((a->top == 4 || a->top == 3) && b->top == -1)
+	{
+		sort_five(a, b);
+		return ;
+	}
+	if (a->top == 2)
+		sort_tree(a, b);
 	if (a->top == v.s + 1 && a->arr[a->top].value > a->arr[v.s].value)
 	{
 		apply_inst(a, b, "sa", 1);

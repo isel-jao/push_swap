@@ -7,7 +7,7 @@
 # include <fcntl.h>
 # include <string.h>
 # include <stdio.h>
-
+# include "libft.h"
 /*
 ** macro definition
 */

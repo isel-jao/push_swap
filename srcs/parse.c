@@ -1,7 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/27 18:12:28 by isel-jao          #+#    #+#             */
+/*   Updated: 2021/05/27 19:55:26 by isel-jao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-
-int ft_error(int exit_status)
+int	ft_error(int exit_status)
 {
 	if (exit_status == OK)
 	{
@@ -14,13 +25,13 @@ int ft_error(int exit_status)
 		return (0);
 	}
 	ft_putendl("Error");
-	return (1);
+	return (exit_status);
 }
 
-int get_arg(char *arg, int *nb)
+int	get_arg(char *arg, int *nb)
 {
-	int res;
-	int b;
+	int	res;
+	int	b;
 
 	b = 1;
 	res = 0;
@@ -36,9 +47,9 @@ int get_arg(char *arg, int *nb)
 	return (0);
 }
 
-int is_duplicates(t_stack *a, int nb)
+int	is_duplicates(t_stack *a, int nb)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i <= a->top)
@@ -50,12 +61,12 @@ int is_duplicates(t_stack *a, int nb)
 	return (FALSE);
 }
 
-int parse(int ac, char **av, t_all *all)
+int	parse(int ac, char **av, t_all *all)
 {
-	int nb;
+	int	nb;
 
 	if (ac == 1)
-		return 0;
+		return (0);
 	all->a.arr = malloc(sizeof(t_data) * (ac - 1));
 	all->b.arr = malloc(sizeof(t_data) * (ac - 1));
 	if (!all->a.arr || !all->b.arr)

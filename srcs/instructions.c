@@ -1,20 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   instructions.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/27 18:11:52 by isel-jao          #+#    #+#             */
+/*   Updated: 2021/05/27 18:12:10 by isel-jao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-int push_a(t_stack *a, t_stack *b)
+int	push_a(t_stack *a, t_stack *b)
 {
 	if (b->top > -1)
 		push(a, *pop(b));
 	return (0);
 }
 
-int push_b(t_stack *a, t_stack *b)
+int	push_b(t_stack *a, t_stack *b)
 {
 	if (a->top > -1)
 		push(b, *pop(a));
 	return (0);
 }
 
-int apply_inst(t_stack *a, t_stack *b, char *s, int print)
+int	apply_inst(t_stack *a, t_stack *b, char *s, int print)
 {
 	if (print)
 		ft_putendl(s);
@@ -40,6 +52,5 @@ int apply_inst(t_stack *a, t_stack *b, char *s, int print)
 		return (rotate(b, LEFT));
 	if (!ft_strcmp(s, "rrr"))
 		return (rotate(a, LEFT) & rotate(b, LEFT));
-
 	return (1);
 }
