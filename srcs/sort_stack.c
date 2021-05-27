@@ -9,9 +9,50 @@ typedef struct s_vars
 	int med_v;
 } t_vars;
 
+static void sort_tree(t_stack *a, t_stack *b)
+{
+	if (a->arr[0].position == 0 && a->arr[1].position == 2)
+		apply_inst(a, b, "sa", 1);
+	else if (a->arr[1].position == 0)
+	{
+		apply_inst(a, b, "rra", 1);
+		if (a->arr[1].position != 1)
+			apply_inst(a, b, "sa", 1);
+	}
+	else
+	{
+		apply_inst(a, b, "ra", 1);
+		if (a->arr[1].position != 1)
+			apply_inst(a, b, "sa", 1);
+	}
+}
+
+static void sort_five(t_stack *a, t_stack *b)
+{
+	int i;
+	int p;
+
+	p = a->top - 2;
+	i = a->top;
+	while (i >= 0 && p)
+	{
+		if (a->arr[i].position >= 3)
+		{
+			p--;
+			apply_inst(a, b, "pb", 1);
+		}
+		else
+		{
+			apply_inst(a, b, "ra", 1);
+		}
+	}
+	sort_tree(a, b);
+	while (b->top >= 0)
+		apply_inst(a, b, "pa", 1);
+}
 static void ft_sort_a(t_stack *a, t_stack *b, t_chunk chunk, t_vars v)
 {
-	
+
 	v.med = get_median(a, v.s);
 	v.med_v = a->arr[v.med].value;
 	chunk.top++;
@@ -20,7 +61,7 @@ static void ft_sort_a(t_stack *a, t_stack *b, t_chunk chunk, t_vars v)
 	v.r = 0;
 	while (--v.i >= 0)
 	{
-		if (a->arr[a->top].value <= v.med_v)
+		if (a->arr[a->top].value < v.med_v)
 			apply_inst(a, b, "pb", 1);
 		else if (++v.r)
 			apply_inst(a, b, "ra", 1);
@@ -37,6 +78,13 @@ void sort_a(t_stack *a, t_stack *b, t_chunk chunk)
 {
 	t_vars v;
 
+	if (a->top == 2)
+		sort_tree(a, b);
+	else if (a->top == 4 || a->top == 3)
+	{
+		sort_five(a, b);
+		return;
+	}
 	v.s = get_last_sorted(a);
 	if (v.s == -1 || a->top < v.s)
 		return;

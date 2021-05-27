@@ -93,6 +93,7 @@ int main(int ac, char **av)
 	int low;
 	int hight;
 	int size;
+	
 	if (ac == 4)
 	{
 		low = atoi(av[1]);
