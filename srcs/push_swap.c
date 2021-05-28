@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/28 14:20:47 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/28 19:38:16 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	main(int ac, char **av)
 	all.a.arr = NULL;
 	all.b.arr = NULL;
 	all.chunks.indexes = NULL;
+	if (ac == 1)
+		return (0);
 	if (parse(ac, av, &all) != OK)
 		return (1);
 	if (is_sorted(&(all.a), &(all.b)))

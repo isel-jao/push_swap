@@ -15,6 +15,7 @@ SRCS		+= 	parse.c
 SRCS		+= 	sort_stack.c
 SRCS		+= 	sort_stack_tools.c
 SRCS		+= 	positions.c
+SRCS		+= 	free_tab.c
 
 SRCS_B		= 	checker.c
 SRCS_B		+= 	stack_tools.c
@@ -23,6 +24,7 @@ SRCS_B		+= 	parse.c
 SRCS_B		+= 	sort_stack.c
 SRCS_B		+= 	sort_stack_tools.c
 SRCS_B		+= 	positions.c
+SRCS_B		+= 	free_tab.c
 
 
 

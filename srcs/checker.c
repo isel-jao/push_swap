@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/28 14:43:04 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/28 19:26:09 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	main(int ac, char **av)
 	t_all	all;
 	char	*inst;
 
+	if (ac == 1)
+		return (0);
 	if (parse(ac, av, &all) != OK)
 		return (1);
 	while (get_next_line(0, &inst))

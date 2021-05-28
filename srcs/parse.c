@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 18:12:28 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/28 14:48:38 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/28 19:38:58 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ft_parse(int *ac, char ***av)
 	while (i < *ac)
 	{
 		tmp = arr;
-		arr = ft_strjoin(arr, *av[i]);
+		arr = ft_strjoin(arr, (*av)[i]);
 		free(tmp);
 		tmp = arr;
 		arr = ft_strjoin(arr, " ");
@@ -85,7 +85,7 @@ void	ft_parse(int *ac, char ***av)
 	}
 	*av = ft_split(arr, ' ');
 	i = 0;
-	while (*av[i])
+	while ((*av)[i])
 		i++;
 	*ac = i;
 }
@@ -96,16 +96,16 @@ int	parse(int ac, char **av, t_all *all)
 
 	if (ac == 1)
 		return (0);
+	ft_parse(&ac, &av);
 	all->a.arr = malloc(sizeof(t_data) * (ac - 1));
 	all->b.arr = malloc(sizeof(t_data) * (ac - 1));
-	if (!all->a.arr || !all->b.arr)
-		return (ft_error(ERROR));
 	all->a.top = -1;
 	all->b.top = -1;
 	while (--ac >= 1)
 	{
 		if (get_arg(av[ac], &nb) || is_duplicates(&(all->a), nb))
 		{
+			free_tab(av);
 			free(all->a.arr);
 			free(all->b.arr);
 			return (ft_error(ERROR));
@@ -115,5 +115,6 @@ int	parse(int ac, char **av, t_all *all)
 	}
 	all->chunks.indexes = malloc(sizeof(int) * all->a.top);
 	all->chunks.top = -1;
+	free_tab(av);
 	return (OK);
 }

@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 12:12:08 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/28 12:44:39 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/28 19:36:56 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,16 +107,6 @@ void	sort_a(t_stack *a, t_stack *b, t_chunk chunk);
 void	sort_b(t_stack *a, t_stack *b, t_chunk chunk);
 
 void	set_positions(t_stack *stack);
-
-/*
-** libft
-*/
-
-float	ft_abs(float i);
-void	*ft_memmove(void *dst, const void *src, size_t len);
-void	*ft_memcpy(void *dst, const void *src, size_t n);
-void	ft_putstr(char *s);
-void	ft_putendl(char *s);
-int		ft_strcmp(const char *s1, const char *s2);
+void	free_tab(char **s);
 
 #endif
