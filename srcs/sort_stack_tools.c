@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:49:59 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/27 21:52:27 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/28 12:23:47 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ int	get_last_sorted(t_stack *stack)
 	return (i);
 }
 
-int	get_median(t_stack *stack, int low)
+float	get_middle(t_stack *stack, int low)
 {
 	int		min;
 	int		max;
 	int		i;
-	int		mid_index;
-	float	middle;
 
 	min = stack->arr[low].value;
 	max = stack->arr[low].value;
@@ -48,7 +46,16 @@ int	get_median(t_stack *stack, int low)
 			max = stack->arr[i].value;
 		i++;
 	}
-	middle = (float)(min + max) / 2.;
+	return ((float)(min + max) / 2.);
+}
+
+int	get_median(t_stack *stack, int low)
+{
+	int		i;
+	int		mid_index;
+	float	middle;
+
+	middle = get_middle(stack, low);
 	mid_index = low;
 	i = low + 1;
 	while (i <= stack->top)
