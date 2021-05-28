@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 18:12:28 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/27 19:55:26 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/28 14:48:38 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ int	ft_error(int exit_status)
 
 int	get_arg(char *arg, int *nb)
 {
-	int	res;
-	int	b;
+	long int	res;
+	int			b;
 
 	b = 1;
 	res = 0;
@@ -40,7 +40,11 @@ int	get_arg(char *arg, int *nb)
 	if (*arg == '-' || *arg == '+')
 		++arg;
 	while (*arg && *arg >= '0' && *arg <= '9')
+	{
 		res = res * 10 + (*arg++ - 48);
+		if (res > 2147483647)
+			return (1);
+	}
 	if (*arg)
 		return (1);
 	*nb = ((int)res * b);
@@ -61,9 +65,34 @@ int	is_duplicates(t_stack *a, int nb)
 	return (FALSE);
 }
 
+void	ft_parse(int *ac, char ***av)
+{
+	char	*arr;
+	char	*tmp;
+	int		i;
+
+	arr = ft_strdup("");
+	i = 0;
+	while (i < *ac)
+	{
+		tmp = arr;
+		arr = ft_strjoin(arr, *av[i]);
+		free(tmp);
+		tmp = arr;
+		arr = ft_strjoin(arr, " ");
+		free(tmp);
+		i++;
+	}
+	*av = ft_split(arr, ' ');
+	i = 0;
+	while (*av[i])
+		i++;
+	*ac = i;
+}
+
 int	parse(int ac, char **av, t_all *all)
 {
-	int	nb;
+	int		nb;
 
 	if (ac == 1)
 		return (0);

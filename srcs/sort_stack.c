@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:36:31 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/27 21:38:06 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/28 13:22:33 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,15 @@ void	sort_a(t_stack *a, t_stack *b, t_chunk chunk)
 	}
 	if (a->top == 2)
 		sort_tree(a, b);
+	v.s = get_last_sorted(a);
+	if (v.s == -1 || a->top < v.s)
+		return ;
 	if (a->top == v.s + 1 && a->arr[a->top].value > a->arr[v.s].value)
 	{
 		apply_inst(a, b, "sa", 1);
 		sort_a(a, b, chunk);
 		return ;
 	}
-	v.s = get_last_sorted(a);
-	if (v.s == -1 || a->top < v.s)
-		return ;
 	ft_sort_a(a, b, chunk, v);
 }
 

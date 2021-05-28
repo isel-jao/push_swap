@@ -61,4 +61,5 @@ clean:
 
 fclean: clean
 	rm -rf ${NAME_B} ${NAME}
+	@make fclean -C libft/ --no-print-directory
 re: clean all

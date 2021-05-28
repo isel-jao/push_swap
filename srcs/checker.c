@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/27 21:35:09 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/28 14:43:04 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	main(int ac, char **av)
 			return (ft_error(ERROR));
 		free(inst);
 	}
+	if (!is_sorted(&all.a, &all.b))
+		return (ft_error(KO));
 	ft_putstr("OK\n");
 	return (0);
 }

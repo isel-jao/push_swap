@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 12:12:08 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/28 12:16:31 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/28 12:44:39 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef struct s_data
 {
 	int	value;
 	int	position;
-	int	sorted;
 }	t_data;
 
 typedef struct s_stack
