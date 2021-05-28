@@ -6,11 +6,25 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/27 19:55:10 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/27 21:35:55 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
+
+void	print_stack(t_stack *stack)
+{
+	int	i;
+
+	i = stack->top;
+	while (i >= 0)
+	{
+		ft_putnbr(stack->arr[i].value);
+		ft_putstr("\t");
+		ft_putnbr(stack->arr[i--].position);
+		ft_putstr("\n");
+	}
+}
 
 int	is_sorted(t_stack *a, t_stack *b)
 {

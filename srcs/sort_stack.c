@@ -1,17 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_stack.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/27 21:36:31 by isel-jao          #+#    #+#             */
+/*   Updated: 2021/05/27 21:38:06 by isel-jao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-typedef struct s_vars
+static void	sort_tree(t_stack *a, t_stack *b)
 {
-	int i;
-	int r;
-	int s;
-	int med;
-	int med_v;
-} t_vars;
-
-static void sort_tree(t_stack *a, t_stack *b)
-{
-	if (a->arr[0].position == 0 && a->arr[1].position == 2)
+	if (a->arr[0].position == 0 && a->arr[1].position == 1)
+		return ;
+	else if (a->arr[0].position == 0 && a->arr[1].position == 2)
 		apply_inst(a, b, "sa", 1);
 	else if (a->arr[1].position == 0)
 	{
@@ -27,16 +32,16 @@ static void sort_tree(t_stack *a, t_stack *b)
 	}
 }
 
-static void sort_five(t_stack *a, t_stack *b)
+static void	sort_five(t_stack *a, t_stack *b)
 {
-	int i;
-	int p;
+	int	i;
+	int	p;
 
 	p = a->top - 2;
 	i = a->top;
 	while (i >= 0 && p)
 	{
-		if (a->arr[i].position >= 3)
+		if (a->arr[a->top].position >= 3)
 		{
 			p--;
 			apply_inst(a, b, "pb", 1);
@@ -52,9 +57,9 @@ static void sort_five(t_stack *a, t_stack *b)
 	if (a->arr[a->top].value > a->arr[a->top - 1].value)
 		apply_inst(a, b, "sa", 1);
 }
-static void ft_sort_a(t_stack *a, t_stack *b, t_chunk chunk, t_vars v)
-{
 
+static void	ft_sort_a(t_stack *a, t_stack *b, t_chunk chunk, t_vars v)
+{
 	v.med = get_median(a, v.s);
 	v.med_v = a->arr[v.med].value;
 	chunk.top++;
@@ -76,13 +81,10 @@ static void ft_sort_a(t_stack *a, t_stack *b, t_chunk chunk, t_vars v)
 	sort_b(a, b, chunk);
 }
 
-void sort_a(t_stack *a, t_stack *b, t_chunk chunk)
+void	sort_a(t_stack *a, t_stack *b, t_chunk chunk)
 {
-	t_vars v;
+	t_vars	v;
 
-	v.s = get_last_sorted(a);
-	if (v.s == -1 || a->top < v.s)
-		return;
 	if ((a->top == 4 || a->top == 3) && b->top == -1)
 	{
 		sort_five(a, b);
@@ -94,17 +96,20 @@ void sort_a(t_stack *a, t_stack *b, t_chunk chunk)
 	{
 		apply_inst(a, b, "sa", 1);
 		sort_a(a, b, chunk);
-		return;
+		return ;
 	}
+	v.s = get_last_sorted(a);
+	if (v.s == -1 || a->top < v.s)
+		return ;
 	ft_sort_a(a, b, chunk, v);
 }
 
-void sort_b(t_stack *a, t_stack *b, t_chunk chunk)
+void	sort_b(t_stack *a, t_stack *b, t_chunk chunk)
 {
-	t_vars v;
+	t_vars	v;
 
 	if (b->top < 0)
-		return;
+		return ;
 	v.s = chunk.indexes[chunk.top];
 	v.med = get_median(b, v.s);
 	v.med_v = b->arr[v.med].value;

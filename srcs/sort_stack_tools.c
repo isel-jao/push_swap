@@ -1,44 +1,62 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_stack_tools.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/05/27 21:49:59 by isel-jao          #+#    #+#             */
+/*   Updated: 2021/05/27 21:52:27 by isel-jao         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-
-float ft_abs(float i)
+float	ft_abs(float i)
 {
 	if (i >= 0)
-		return i;
+		return (i);
 	return (-i);
 }
 
-int get_last_sorted(t_stack *stack)
+int	get_last_sorted(t_stack *stack)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (stack->arr[i].position == i)
 		i++;
-	return i;
+	return (i);
 }
 
-int get_median(t_stack *stack, int low)
+int	get_median(t_stack *stack, int low)
 {
-	int min;
-	int max;
-	float middle;
-	int mid_index;
+	int		min;
+	int		max;
+	int		i;
+	int		mid_index;
+	float	middle;
+
 	min = stack->arr[low].value;
 	max = stack->arr[low].value;
-	for (int i = low + 1; i <= stack->top; i++)
+	i = low + 1;
+	while (i <= stack->top)
 	{
 		if (stack->arr[i].value < min)
 			min = stack->arr[i].value;
 		if (stack->arr[i].value > max)
 			max = stack->arr[i].value;
+		i++;
 	}
 	middle = (float)(min + max) / 2.;
 	mid_index = low;
-	for (int i = low + 1; i <= stack->top; i++)
+	i = low + 1;
+	while (i <= stack->top)
 	{
-		if (ft_abs((float)(stack->arr[i].value) - middle) <= ft_abs((float)(stack->arr[mid_index].value) - middle))
+		if (ft_abs((float)(stack->arr[i].value) - middle) <= \
+		ft_abs((float)(stack->arr[mid_index].value) - middle))
 			mid_index = i;
+		i++;
 	}
 	return (mid_index);
 }
