@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 18:12:28 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/28 19:38:58 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/30 15:55:11 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,6 @@ int	parse(int ac, char **av, t_all *all)
 {
 	int		nb;
 
-	if (ac == 1)
-		return (0);
 	ft_parse(&ac, &av);
 	all->a.arr = malloc(sizeof(t_data) * (ac - 1));
 	all->b.arr = malloc(sizeof(t_data) * (ac - 1));

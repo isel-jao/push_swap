@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 12:12:08 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/28 19:36:56 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/05/30 15:54:15 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ typedef struct s_all
 	t_stack	a;
 	t_stack	b;
 	t_data	data;
-	int		i;
-	int		nb;
 }	t_all;
 
 typedef struct s_vars
