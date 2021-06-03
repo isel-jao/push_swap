@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 18:12:28 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/30 15:55:11 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/06/03 13:09:09 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,23 @@ int	ft_error(int exit_status)
 int	get_arg(char *arg, int *nb)
 {
 	long int	res;
-	int			b;
+	int			signe;
 
-	b = 1;
+	signe = 1;
 	res = 0;
 	if (*arg == '-')
-		b = -1;
+		signe = -1;
 	if (*arg == '-' || *arg == '+')
 		++arg;
 	while (*arg && *arg >= '0' && *arg <= '9')
 	{
 		res = res * 10 + (*arg++ - 48);
-		if (res > 2147483647)
+		if (res > 2147483648 || (res > 2147483647 && signe == 1))
 			return (1);
 	}
 	if (*arg)
 		return (1);
-	*nb = ((int)res * b);
+	*nb = ((int)(res * signe));
 	return (0);
 }
 

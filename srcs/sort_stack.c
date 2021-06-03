@@ -6,7 +6,7 @@
 /*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:36:31 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/30 16:06:09 by isel-jao         ###   ########.fr       */
+/*   Updated: 2021/06/03 13:17:49 by isel-jao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	ft_sort_a(t_stack *a, t_stack *b, t_chunk chunk, t_vars v)
 	v.r = 0;
 	while (--v.i >= 0)
 	{
-		if (a->arr[a->top].value < v.med_v)
+		if (a->arr[a->top].value <= v.med_v)
 			apply_inst(a, b, "pb", 1);
 		else if (++v.r)
 			apply_inst(a, b, "ra", 1);
