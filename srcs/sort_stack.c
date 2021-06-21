@@ -14,42 +14,33 @@
 
 static void	sort_tree(t_stack *a, t_stack *b)
 {
-	if (a->arr[0].position == 0 && a->arr[1].position == 1)
-		return ;
-	else if (a->arr[0].position == 0 && a->arr[1].position == 2)
-		apply_inst(a, b, "sa", 1);
-	else if (a->arr[1].position == 0)
-	{
-		apply_inst(a, b, "rra", 1);
-		if (a->arr[1].position != 1)
-			apply_inst(a, b, "sa", 1);
-	}
-	else
-	{
-		apply_inst(a, b, "ra", 1);
-		if (a->arr[1].position != 1)
-			apply_inst(a, b, "sa", 1);
-	}
+	if (a->arr[0].position == 0)
+    {
+        if (a->arr[1].position != 1)
+            apply_inst(a, b, "sa", 1);
+    }
+    else if (a->arr[1].position == 0)
+    {
+        apply_inst(a, b, "rra", 1);
+        if (a->arr[1].position != 1)
+            apply_inst(a, b, "sa", 1);
+    }
+    else
+    {
+        apply_inst(a, b, "ra", 1);
+        if (a->arr[1].position != 1)
+            apply_inst(a, b, "sa", 1);
+    }
 }
 
 static void	sort_five(t_stack *a, t_stack *b)
 {
-	int	i;
-	int	p;
-
-	p = a->top - 2;
-	i = a->top;
-	while (i >= 0 && p)
+	while (a->top > 2)
 	{
 		if (a->arr[a->top].position >= 3)
-		{
-			p--;
 			apply_inst(a, b, "pb", 1);
-		}
 		else
-		{
 			apply_inst(a, b, "ra", 1);
-		}
 	}
 	sort_tree(a, b);
 	while (b->top >= 0)
@@ -60,23 +51,26 @@ static void	sort_five(t_stack *a, t_stack *b)
 
 static void	ft_sort_a(t_stack *a, t_stack *b, t_chunk chunk, t_vars v)
 {
-	v.med = get_median(a, v.s);
-	v.med_v = a->arr[v.med].value;
+	v.med_index = get_median(a, v.start);
+	v.med_value = a->arr[v.med_index].value;
 	chunk.top++;
 	chunk.indexes[chunk.top] = b->top + 1;
-	v.i = a->top - v.s + 1;
-	v.r = 0;
-	while (--v.i >= 0)
+	v.count = a->top - v.start + 1;
+	v.rot_count = 0;
+	while (--v.count >= 0)
 	{
-		if (a->arr[a->top].value <= v.med_v)
+		if (a->arr[a->top].value <= v.med_value)
 			apply_inst(a, b, "pb", 1);
-		else if (++v.r)
+		else 
+		{
 			apply_inst(a, b, "ra", 1);
+			v.rot_count++;
+		}
 	}
-	if (v.s > 0)
-		while (v.r--)
+	if (v.start > 0)
+		while (v.rot_count--)
 			apply_inst(a, b, "rra", 1);
-	if (a->top > v.s)
+	if (a->top > v.start)
 		sort_a(a, b, chunk);
 	sort_b(a, b, chunk);
 }
@@ -92,13 +86,12 @@ void	sort_a(t_stack *a, t_stack *b, t_chunk chunk)
 	}
 	if (a->top == 2)
 		sort_tree(a, b);
-	v.s = get_last_sorted(a);
-	if (v.s == -1 || a->top < v.s)
+	v.start = first_unsorted(a);
+	if (a->top < v.start)
 		return ;
-	if (a->top == v.s + 1 && a->arr[a->top].value > a->arr[v.s].value)
+	if (a->top == v.start + 1)
 	{
 		apply_inst(a, b, "sa", 1);
-		sort_a(a, b, chunk);
 		return ;
 	}
 	ft_sort_a(a, b, chunk, v);
@@ -110,20 +103,20 @@ void	sort_b(t_stack *a, t_stack *b, t_chunk chunk)
 
 	if (b->top < 0)
 		return ;
-	v.s = chunk.indexes[chunk.top];
-	v.med = get_median(b, v.s);
-	v.med_v = b->arr[v.med].value;
-	v.i = b->top - v.s + 1;
-	v.r = 0;
-	while (--v.i >= 0)
+	v.start = chunk.indexes[chunk.top];
+	v.med_index = get_median(b, v.start);
+	v.med_value = b->arr[v.med_index].value;
+	v.count = b->top - v.start + 1;
+	v.rot_count = 0;
+	while (--v.count >= 0)
 	{
-		if (b->arr[b->top].value >= v.med_v)
+		if (b->arr[b->top].value >= v.med_value)
 			apply_inst(a, b, "pa", 1);
-		else if (++v.r)
+		else if (++v.rot_count)
 			apply_inst(a, b, "rb", 1);
 	}
-	if (v.s > 0)
-		while (v.r--)
+	if (v.start > 0)
+		while (v.rot_count--)
 			apply_inst(a, b, "rrb", 1);
 	if (b->top < chunk.indexes[chunk.top])
 		chunk.top--;

@@ -41,16 +41,16 @@ int	apply_inst(t_stack *a, t_stack *b, char *s, int print)
 	if (!ft_strcmp(s, "pb"))
 		return (push_b(a, b));
 	if (!ft_strcmp(s, "ra"))
-		return (rotate(a, RIGHT));
+		return (rotate(a));
 	if (!ft_strcmp(s, "rb"))
-		return (rotate(b, RIGHT));
+		return (rotate(b));
 	if (!ft_strcmp(s, "rr"))
-		return (rotate(a, RIGHT) & rotate(b, RIGHT));
+		return (rotate(a) & rotate(b));
 	if (!ft_strcmp(s, "rra"))
-		return (rotate(a, LEFT));
+		return (reverse_rotate(a));
 	if (!ft_strcmp(s, "rrb"))
-		return (rotate(b, LEFT));
+		return (reverse_rotate(b));
 	if (!ft_strcmp(s, "rrr"))
-		return (rotate(a, LEFT) & rotate(b, LEFT));
+		return (reverse_rotate(a) & reverse_rotate(b));
 	return (1);
 }

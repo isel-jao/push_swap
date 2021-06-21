@@ -19,7 +19,7 @@ float	ft_abs(float i)
 	return (-i);
 }
 
-int	get_last_sorted(t_stack *stack)
+int	first_unsorted(t_stack *stack)
 {
 	int	i;
 
