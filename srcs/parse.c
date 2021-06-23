@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yqodsi <yqodsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/27 18:12:28 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/06/03 13:09:09 by isel-jao         ###   ########.fr       */
+/*   Created: 2021/05/27 18:12:28 by yqodsi            #+#    #+#             */
+/*   Updated: 2021/06/23 18:35:24 by yqodsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	ft_error(int exit_status)
+int ft_error(int exit_status)
 {
 	if (exit_status == OK)
 	{
@@ -28,10 +28,10 @@ int	ft_error(int exit_status)
 	return (exit_status);
 }
 
-int	get_arg(char *arg, int *nb)
+int get_arg(char *arg, int *nb)
 {
-	long int	res;
-	int			signe;
+	long int res;
+	int signe;
 
 	signe = 1;
 	res = 0;
@@ -51,9 +51,9 @@ int	get_arg(char *arg, int *nb)
 	return (0);
 }
 
-int	is_duplicates(t_stack *a, int nb)
+int is_duplicates(t_stack *a, int nb)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i <= a->top)
@@ -65,11 +65,11 @@ int	is_duplicates(t_stack *a, int nb)
 	return (FALSE);
 }
 
-void	ft_parse(int *ac, char ***av)
+void ft_parse(int *ac, char ***av)
 {
-	char	*arr;
-	char	*tmp;
-	int		i;
+	char *arr;
+	char *tmp;
+	int i;
 
 	arr = ft_strdup("");
 	i = 0;
@@ -90,9 +90,9 @@ void	ft_parse(int *ac, char ***av)
 	*ac = i;
 }
 
-int	parse(int ac, char **av, t_all *all)
+int parse(int ac, char **av, t_all *all)
 {
-	int		nb;
+	int nb;
 
 	ft_parse(&ac, &av);
 	all->a.arr = malloc(sizeof(t_data) * (ac - 1));

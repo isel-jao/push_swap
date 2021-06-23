@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yqodsi <yqodsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/28 19:26:09 by isel-jao         ###   ########.fr       */
+/*   Created: 2021/03/21 13:16:41 by yqodsi            #+#    #+#             */
+/*   Updated: 2021/06/23 18:35:24 by yqodsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-int	is_sorted(t_stack *a, t_stack *b)
+int is_sorted(t_stack *a, t_stack *b)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (b->top != -1)
@@ -28,10 +28,10 @@ int	is_sorted(t_stack *a, t_stack *b)
 	return (TRUE);
 }
 
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
-	t_all	all;
-	char	*inst;
+	t_all all;
+	char *inst;
 
 	if (ac == 1)
 		return (0);

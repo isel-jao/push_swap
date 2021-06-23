@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   push_swap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yqodsi <yqodsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/21 13:16:41 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/28 19:38:16 by isel-jao         ###   ########.fr       */
+/*   Created: 2021/03/21 13:16:41 by yqodsi            #+#    #+#             */
+/*   Updated: 2021/06/23 18:35:24 by yqodsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	print_stack(t_stack *stack)
+void print_stack(t_stack *stack)
 {
-	int	i;
+	int i;
 
 	i = stack->top;
 	while (i >= 0)
@@ -26,9 +26,9 @@ void	print_stack(t_stack *stack)
 	}
 }
 
-int	is_sorted(t_stack *a, t_stack *b)
+int is_sorted(t_stack *a, t_stack *b)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	if (b->top != -1)
@@ -42,9 +42,9 @@ int	is_sorted(t_stack *a, t_stack *b)
 	return (TRUE);
 }
 
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
-	t_all	all;
+	t_all all;
 
 	all.a.arr = NULL;
 	all.b.arr = NULL;

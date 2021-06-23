@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   free_tab.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yqodsi <yqodsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/28 19:34:17 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/28 19:37:59 by isel-jao         ###   ########.fr       */
+/*   Created: 2021/05/28 19:34:17 by yqodsi            #+#    #+#             */
+/*   Updated: 2021/06/23 18:35:24 by yqodsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-void	free_tab(char **s)
+void free_tab(char **s)
 {
-	int	i;
+	int i;
 
 	if (s)
 	{

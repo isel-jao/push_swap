@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   positions.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: isel-jao <isel-jao@student.42.fr>          +#+  +:+       +#+        */
+/*   By: yqodsi <yqodsi@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/27 18:13:28 by isel-jao          #+#    #+#             */
-/*   Updated: 2021/05/27 18:14:03 by isel-jao         ###   ########.fr       */
+/*   Created: 2021/05/27 18:13:28 by yqodsi            #+#    #+#             */
+/*   Updated: 2021/06/23 18:35:24 by yqodsi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static void	selectionSort(t_stack *stack)
+static void selectionSort(t_stack *stack)
 {
-	int		i;
-	int		j;
-	int		max;
-	t_data	tmp;
+	int i;
+	int j;
+	int max;
+	t_data tmp;
 
 	i = 0;
 	while (i <= stack->top)
@@ -37,9 +37,9 @@ static void	selectionSort(t_stack *stack)
 	}
 }
 
-static int	get_index(t_stack *stack, int value)
+static int get_index(t_stack *stack, int value)
 {
-	int	index;
+	int index;
 
 	index = 0;
 	while (index <= stack->top)
@@ -51,10 +51,10 @@ static int	get_index(t_stack *stack, int value)
 	return (-1);
 }
 
-void	set_positions(t_stack *stack)
+void set_positions(t_stack *stack)
 {
-	t_stack	tmp;
-	int		i;
+	t_stack tmp;
+	int i;
 
 	tmp.arr = malloc(sizeof(t_data) * (stack->top + 1));
 	ft_memmove(tmp.arr, stack->arr, sizeof(t_data) * (stack->top + 1));
